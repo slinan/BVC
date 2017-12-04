@@ -60,6 +60,7 @@ sampleCategoricalData[0]="Different Region";
   x.domain(orders.name);
 
   svgd.append("rect")
+      .attr("class", "bobson")
       .attr("class", "background")
       .attr("width", widthd)
       .attr("height", heightd);
@@ -120,34 +121,8 @@ sampleCategoricalData[0]="Different Region";
 
   function mouseout() {
     d3.selectAll("text").classed("active", false);
-     d3.selectAll("rect").attr("width",x.rangeBand());
-     d3.selectAll("rect").attr("height",x.rangeBand());
+     d3.selectAll(".bobson").attr("width",x.rangeBand());
+     d3.selectAll(".bobson").attr("height",x.rangeBand());
   }
 
-  d3.select("#order").on("change", function() {
-    clearTimeout(timeout);
-    order(this.value);
-  });
-
-  function order(value) {
-    x.domain(orders[value]);
-
-    var t = svgd.transition().duration(1500);
-
-    t.selectAll(".row")
-        .delay(function(d, i) { return x(i) * 4; })
-        .attr("transform", function(d, i) { return "translate(0," + x(i) + ")"; })
-      .selectAll(".cell")
-        .delay(function(d) { return x(d.x) * 4; })
-        .attr("x", function(d) { return x(d.x); });
-
-    t.selectAll(".column")
-        .delay(function(d, i) { return x(i) * 4; })
-        .attr("transform", function(d, i) { return "translate(" + x(i) + ")rotate(-90)"; });
-  }
-
-  var timeout = setTimeout(function() {
-    order("group");
-    d3.select("#order").property("selectedIndex", 2).node().focus();
-  }, 2000);
 });
