@@ -61,7 +61,7 @@ sampleCategoricalData[0]="Different Region";
 
   svgd.append("rect")
       .attr("class", "bobson")
-      .attr("class", "background")
+      .attr("fill", "#f7f7f7")
       .attr("width", widthd)
       .attr("height", heightd);
 
