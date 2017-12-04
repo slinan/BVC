@@ -127,7 +127,9 @@ function display(d) {
             .call(rect)
             .attr("class", "foreignobj")
             .on("mouseover",function (d) {
-                createLineChart(d.data.NEMO, d.data.FECHA);
+                if(!(d.data.FECHA == undefined)){
+                    createLineChart(d.data.NEMO, d.data.FECHA);
+                }
             })
             .append("xhtml:div")
             .attr("title", function(d) {
