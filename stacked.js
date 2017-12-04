@@ -82,6 +82,10 @@ var histcatexplong = [];
 
     $(document).ready(function(){ window.dispatchEvent(new Event('resize')); }) 
 
+        window.onscroll = function () {
+                window.dispatchEvent(new Event('resize'));
+    }
+
 
 
 

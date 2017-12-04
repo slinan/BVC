@@ -32,9 +32,9 @@
     	        #chart2{
             margin: 100px;
             padding: 20px;
-            height: 80%;
-            width: 80%;
-
+            height: 800px;
+            width: 90%;
+            display: block;
         }
     </style>
 
@@ -64,7 +64,7 @@
       </div>
       <div class="navbar navbar-dark bg-dark">
         <div class="container d-flex justify-content-between">
-          <a href="#" class="navbar-brand">Album</a>
+          <a href="#" class="navbar-brand">BVC</a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
@@ -107,9 +107,9 @@
 
           <div class="treemap_jj">
 
-			<p>Fecha Inicial: <input type="text" class="datepicker" id="date1" value="4/01/2016"></p>
-			<p>Fecha Final: <input type="text" class="datepicker" id="date2" value="4/01/2016"></p>
-			<p><button onclick="changeDate()">Consultar</button> </p>
+			<p>Fecha Inicial: <input type="text" class="datepicker form-control" id="date1" value="4/01/2016"></p>
+			<p>Fecha Final: <input type="text" class="datepicker form-control" id="date2" value="4/01/2016"></p>
+			<p><button class="btn btn-info" onclick="changeDate()">Consultar</button> </p>
 			<div class="feature" id="chart"></div>
 			<div id="priceChart"></div>
           </div>
