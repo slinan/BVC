@@ -11,17 +11,17 @@ var margin = {top: 30, right: 0, bottom: 20, left: 0},
     formatNumber = d3v4.format(","),
     transitioning;
 // sets x and y scale to determine size of visible boxes
-var x = d3v4.scaleLinear()
+var xTree = d3v4.scaleLinear()
     .domain([0, width])
     .range([0, width]);
-var y = d3v4.scaleLinear()
+var yTree = d3v4.scaleLinear()
     .domain([0, height])
     .range([0, height]);
 var treemap = d3v4.treemap()
     .size([width, height])
     .paddingInner(0)
     .round(false);
-var svg = d3v4.select('#'+el_id).append("svg")
+var svgTree = d3v4.select('#'+el_id).append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.bottom + margin.top)
     .style("margin-left", -margin.left + "px")
@@ -29,7 +29,7 @@ var svg = d3v4.select('#'+el_id).append("svg")
     .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
     .style("shape-rendering", "crispEdges");
-var grandparent = svg.append("g")
+var grandparent = svgTree.append("g")
     .attr("class", "grandparent");
 grandparent.append("rect")
     .attr("y", -margin.top)
@@ -95,7 +95,7 @@ function display(d) {
             .attr("fill", function () {
                 return '#bbbbbb'
             });
-        var g1 = svg.insert("g", ".grandparent")
+        var g1 = svgTree.insert("g", ".grandparent")
             .datum(d)
             .attr("class", "depth");
         var g = g1.selectAll("g")
@@ -157,12 +157,12 @@ function display(d) {
                 t1 = g1.transition().duration(650),
                 t2 = g2.transition().duration(650);
             // Update the domain only after entering new elements.
-            x.domain([d.x0, d.x1]);
-            y.domain([d.y0, d.y1]);
+            xTree.domain([d.x0, d.x1]);
+            yTree.domain([d.y0, d.y1]);
             // Enable anti-aliasing during the transition.
-            svg.style("shape-rendering", null);
+            svgTree.style("shape-rendering", null);
             // Draw child nodes on top of parent nodes.
-            svg.selectAll(".depth").sort(function (a, b) {
+            svgTree.selectAll(".depth").sort(function (a, b) {
                 return a.depth - b.depth;
             });
             // Fade-in entering text.
@@ -193,25 +193,25 @@ function display(d) {
     }
     function text(text) {
         text.attr("x", function (d) {
-            return x(d.x) + 6;
+            return xTree(d.x) + 6;
         })
             .attr("y", function (d) {
-                return y(d.y) + 6;
+                return yTree(d.y) + 6;
             });
     }
     function rect(rect) {
         rect
             .attr("x", function (d) {
-                return x(d.x0);
+                return xTree(d.x0);
             })
             .attr("y", function (d) {
-                return y(d.y0);
+                return yTree(d.y0);
             })
             .attr("width", function (d) {
-                return x(d.x1) - x(d.x0);
+                return xTree(d.x1) - xTree(d.x0);
             })
             .attr("height", function (d) {
-                return y(d.y1) - y(d.y0);
+                return yTree(d.y1) - yTree(d.y0);
             })
             .attr("fill", function (d) {
                 return color(d.data.SECTOR);
@@ -220,16 +220,16 @@ function display(d) {
     function foreign(foreign) { /* added */
         foreign
             .attr("x", function (d) {
-                return x(d.x0);
+                return xTree(d.x0);
             })
             .attr("y", function (d) {
-                return y(d.y0);
+                return yTree(d.y0);
             })
             .attr("width", function (d) {
-                return x(d.x1) - x(d.x0);
+                return xTree(d.x1) - xTree(d.x0);
             })
             .attr("height", function (d) {
-                return y(d.y1) - y(d.y0);
+                return yTree(d.y1) - yTree(d.y0);
             });
     }
     function name(d) {
@@ -273,7 +273,7 @@ function changeDate(){
             return b.height - a.height || b.value - a.value
         })
     );
-    svg.selectAll(".depth").remove();
+    svgTree.selectAll(".depth").remove();
     display(root);
 }
 
