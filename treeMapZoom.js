@@ -8,20 +8,20 @@ var divWidth = obj.offsetWidth;
 var margin = {top: 30, right: 0, bottom: 20, left: 0},
     width = divWidth -25,
     height = 500 - margin.top - margin.bottom,
-    formatNumber = d3.format(","),
+    formatNumber = d3v4.format(","),
     transitioning;
 // sets x and y scale to determine size of visible boxes
-var x = d3.scaleLinear()
+var x = d3v4.scaleLinear()
     .domain([0, width])
     .range([0, width]);
-var y = d3.scaleLinear()
+var y = d3v4.scaleLinear()
     .domain([0, height])
     .range([0, height]);
-var treemap = d3.treemap()
+var treemap = d3v4.treemap()
     .size([width, height])
     .paddingInner(0)
     .round(false);
-var svg = d3.select('#'+el_id).append("svg")
+var svg = d3v4.select('#'+el_id).append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.bottom + margin.top)
     .style("margin-left", -margin.left + "px")
@@ -40,14 +40,14 @@ grandparent.append("text")
     .attr("x", 6)
     .attr("y", 6 - margin.top)
     .attr("dy", ".75em");
-var color = d3.scaleOrdinal().range(d3.schemeCategory20c);
+var color = d3v4.scaleOrdinal().range(d3v4.schemeCategory20c);
 
 var dataConst;
 
-d3.csv("bvc_2016_2017.csv", function(error, data) {
-    var fechaInicial = d3.select('#date1')['_groups'][0][0].value;
-    var fechaFinal = d3.select('#date2')['_groups'][0][0].value;
-    sectores = d3.map(data, function(d){return d.SECTOR;}).keys();
+d3v4.csv("bvc_2016_2017.csv", function(error, data) {
+    var fechaInicial = d3v4.select('#date1')['_groups'][0][0].value;
+    var fechaFinal = d3v4.select('#date2')['_groups'][0][0].value;
+    sectores = d3v4.map(data, function(d){return d.SECTOR;}).keys();
     console.log(sectores);
     sectores.forEach(function (d) {
         data.push({"NEMO": d, "SECTOR":"BVC"})
@@ -66,7 +66,7 @@ d3.csv("bvc_2016_2017.csv", function(error, data) {
 
 
 
-    var root = d3.stratify()
+    var root = d3v4.stratify()
         .id(function(d){ return d.NEMO})
         .parentId(function (d) { return d.SECTOR })
         (data);
@@ -254,15 +254,15 @@ function display(d) {
     }
 
 function changeDate(){
-    var fechaInicial = d3.select('#date1')['_groups'][0][0].value;
-    var fechaFinal = d3.select('#date2')['_groups'][0][0].value;
+    var fechaInicial = d3v4.select('#date1')['_groups'][0][0].value;
+    var fechaFinal = d3v4.select('#date2')['_groups'][0][0].value;
     fechaInicial = moment(fechaInicial, 'D/MM/YYYY', false);
     fechaFinal  = moment(fechaFinal, 'D/MM/YYYY', false);
     dataFilter= dataConst.filter(function(d) {
         fecha = moment(d.FECHA, 'D/MM/YYYY', false);
         return fecha.isBetween(fechaInicial, fechaFinal, null, "[]") });
 
-    var root = d3.stratify()
+    var root = d3v4.stratify()
         .id(function(d){ return d.NEMO})
         .parentId(function (d) { return d.SECTOR })
         (dataFilter);

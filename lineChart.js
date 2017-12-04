@@ -7,14 +7,14 @@ var marginLine = {top: 20, right: 20, bottom: 30, left: 50},
     heightLine= 500 - marginLine.top - marginLine.bottom;
 
 // parse the date / time
-var parseTime = d3.timeParse("%d/%m/%Y");
+var parseTime = d3v4.timeParse("%d/%m/%Y");
 
 // set the ranges
-var xLin = d3.scaleTime().range([0, widthLine]);
-var yLin = d3.scaleLinear().range([heightLine, 0]);
+var xLin = d3v4.scaleTime().range([0, widthLine]);
+var yLin = d3v4.scaleLinear().range([heightLine, 0]);
 
 // define the line
-var valueline = d3.line()
+var valueline = d3v4.line()
     .x(function(d) { return xLin(d.date); })
     .y(function(d) { return yLin(d.PRE_MED); })
     .defined(function (d) {
@@ -27,7 +27,7 @@ var valueline = d3.line()
 // append the svg obgect to the body of the page
 // appends a 'group' element to 'svg'
 // moves the 'group' element to the top left margin
-var svgLine = d3.select("#priceChart").append("svg")
+var svgLine = d3v4.select("#priceChart").append("svg")
     .attr("width", widthLine + marginLine.left + marginLine.right)
     .attr("height", heightLine + marginLine.top + marginLine.bottom)
     .append("g")
@@ -46,8 +46,8 @@ function createLineChart(NEMO, fecha) {
     });
 
 // Scale the range of the data
-    xLin.domain(d3.extent(dataFilter, function (d) {return d.date;}));
-    yLin.domain([0, d3.max(dataFilter, function (d) {
+    xLin.domain(d3v4.extent(dataFilter, function (d) {return d.date;}));
+    yLin.domain([0, d3v4.max(dataFilter, function (d) {
         return d.PRE_MED;
     })]);
     svgLine.selectAll("*").remove();
@@ -59,13 +59,13 @@ function createLineChart(NEMO, fecha) {
 // Add the X Axis
     svgLine.append("g")
         .attr("transform", "translate(0," + heightLine + ")")
-        .call(d3.axisBottom(xLin)
+        .call(d3v4.axisBottom(xLin)
             .ticks(24)
-            .tickFormat(d3.timeFormat("%b %d")));
+            .tickFormat(d3v4.timeFormat("%b %d")));
 
 // Add the Y Axis
     svgLine.append("g")
-        .call(d3.axisLeft(yLin));
+        .call(d3v4.axisLeft(yLin));
 
     svgLine.append("text")
         .attr("x", (widthLine / 2))
