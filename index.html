@@ -27,7 +27,11 @@
   } );
   </script>
 
-  <script src="//d3js.org/d3.v4.min.js"></script>
+  <script src="js/d3.v3.js"></script>
+  <script src="js/d3.v4.js"></script>
+
+    <link href="nv/nv.d3.css" rel="stylesheet" type="text/css">
+    <script src="nv/nv.d3.js" id="nv"></script>
 
 <style type="text/css">
 	
@@ -185,7 +189,11 @@
 			<p><button onclick="changeDate()">Consultar</button> </p>
 			<div class="feature" id="chart"></div>
 			<div id="priceChart"></div>
+          </div>
 
+          <div class ="stacked_s">
+
+          	    <svg id="chart2"></svg>
 
           </div>
 
@@ -221,9 +229,10 @@
         fg: '#eceeef',
         text: 'Thumbnail'
       });
-    </script>
+    </script>   
     <script src="treeMapZoom.js"></script>
     <script src="lineChart.js"></script>
+    <script src="stacked.js"></script>
 
   </body>
 </html>
