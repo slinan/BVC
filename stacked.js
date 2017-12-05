@@ -2,7 +2,7 @@
 var stackedData = []
 var mapai = {}
 var chart2;
-var empresas = {'CEMARGOS':'CEMARGOS'}
+var empresas = {'CEMARGOS':'CEMARGOS','BCOLOMBIA':'CEMARGOS','BIOMAX':'CEMARGOS'}
 var fechas = {}
 
 loadGraph();
