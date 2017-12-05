@@ -4,15 +4,20 @@ var margind = {top: 80, right: 180, bottom: 100, left: 80},
 
 var x = d3.scale.ordinal().rangeBands([0, widthd]),
     z = d3.scale.linear().domain([0, 4]).clamp(true),
-    c = d3.scale.category10().domain(d3.range(7));
+    c = d3.scale.category10().domain(d3.range(6))
+    value = 0;
 
 var svgd = d3.select("#header2").append("svg")
     .attr("id","svgd")
     .attr("width", widthd + margind.left + margind.right)
     .attr("height", heightd + margind.top + margind.bottom)
     .style("margin-left", -margind.left + "px")
-  .append("g")
+    .append("g")
     .attr("transform", "translate(" + margind.left + "," + margind.top + ")");
+
+  var div = d3.select("#header2").append("div") 
+        .attr("class", "tooltip")       
+        .style("opacity", 0);
 
 d3.json("miserables.json", function(miserables) {
   var matrix = [],
@@ -25,13 +30,14 @@ d3.json("miserables.json", function(miserables) {
   nodes.forEach(function(node, i) {
     node.index = i;
     node.count = 0;
-    matrix[i] = d3.range(n).map(function(j) { return {x: j, y: i, z: 0}; });
+    console.log(node);
+    matrix[i] = d3.range(n).map(function(j) { return {x: j, y: i, z: 0, value: node.index}; });
   });
 
   // Convert links to matrix; count character occurrences.
   links.forEach(function(link) {
-    matrix[link.source][link.target].z += 4;
-    matrix[link.target][link.source].z += 4;
+    matrix[link.source][link.target].z = link.peso;
+    // matrix[link.target][link.source].z += 4;
     // matrix[link.source][link.source].z += 4;
     // matrix[link.target][link.target].z += 4;
     nodes[link.source].count++;
@@ -39,7 +45,6 @@ d3.json("miserables.json", function(miserables) {
     sampleCategoricalData[nodes[link.source].group] = nodes[link.source].region;
   });
 
-sampleCategoricalData[0]="Different Region";
 
   verticalLegend = d3.svg.legend().labelFormat("none").cellPadding(5).orientation("vertical").units("Sector").cellWidth(25).cellHeight(18).inputScale(c,sampleCategoricalData).cellStepping(10);
 
@@ -67,13 +72,14 @@ sampleCategoricalData[0]="Different Region";
 
   var row = svgd.selectAll(".row")
       .data(matrix)
-    .enter().append("g")
+      .enter().append("g")
       .attr("class", "row")
       .attr("transform", function(d, i) { return "translate(0," + x(i) + ")"; })
       .each(row);
 
   row.append("line")
-      .attr("x2", widthd);
+      .attr("x2", widthd)
+      .attr("fill", "white");
 
   row.append("text")
       .attr("x", -6)
@@ -114,15 +120,28 @@ sampleCategoricalData[0]="Different Region";
 
   
   function mouseover(p) {
+    console.log(p)
     d3.selectAll(".row text").classed("active", function(d, i) { return i == p.y; });
     d3.selectAll(".column text").classed("active", function(d, i) { return i == p.x; });
-     
+    d3.select(this)
+    .style("opacity", .6);
+    div.transition()  
+    .duration(200)    
+    .style("opacity", .9);  
+    var icon ='"ion-leaf"'  
+    div.html("<i class=<b> Hectáreas</b></br>" + p.z)
+    .style("left", (d3.event.pageX + 15 ) + "px")   
+    .style("top", (d3.event.pageY - 45) + "px");
+                                 
   }
 
   function mouseout() {
     d3.selectAll("text").classed("active", false);
-     d3.selectAll(".bobson").attr("width",x.rangeBand());
-     d3.selectAll(".bobson").attr("height",x.rangeBand());
+     d3.select(this)
+     .style("opacity", 1);
+     div.transition()    
+     .duration(500)    
+     .style("opacity", 0);
   }
 
 });
