@@ -4,7 +4,9 @@ var margind = {top: 220, right: 180, bottom: 100, left: 220},
 
 var x = d3.scale.ordinal().rangeBands([0, widthd]),
     z = d3.scale.linear().domain([0, 4]).clamp(true),
-    c = d3.scale.category20c().domain(d3.range(10)),
+    c = d3.scale.linear().domain([1,20])
+      .interpolate(d3.interpolateHcl)
+      .range([d3.rgb('#c7dafc'), d3.rgb('#041c47')]);
     value = 0;
 
 var svgd = d3.select("#header2").append("svg")
@@ -144,11 +146,20 @@ d3.json("miserables.json", function(miserables) {
 
 });
 
-        function financialInfo()
-        {
-          swal(
-        'Financial info',
-        'Esta es la descripción de lo que significa',
-        'question'
-        )
-        };
+  function financialInfo()
+  {
+    swal(
+  'Stock sectors info',
+  'A stock sector is formed by a group of enterprises that share the same product or service. The 5 stock sectors are: Finance, Industry, Investments, Services and Commerce. In this visualization you can explore the volume of transactions of the stocks by sector.',
+  'question'
+  )
+  };
+
+  function volumeInfo()
+  {
+    swal(
+  'Transactions volume info',
+  'The transactions volume is the total amount of the transactios during a defined period of a certain stock. ',
+  'question'
+  )
+  };
