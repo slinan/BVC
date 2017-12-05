@@ -1,90 +1,116 @@
-var histcatexplong = [];
 
-    d3.csv("procesado.csv", function(data) {
-        a1 = {"key": "AGROCHAL", "values" : []};
-        a2 = {"key": "BBVACOL", "values" : []};
-        a3 = {"key": "BCOLOMBIA", "values" : []};
-        a4 = {"key": "BIOMAX", "values" : []};
-        a5 = {"key": "BMC", "values" : []};
-        a6 = {"key": "BVC", "values" : []};
-        a7 = {"key": "CARACOLTV", "values" : []};
-        a8 = {"key": "CARTON", "values" : []};
-        a9 = {"key": "CELSIA", "values" : []};
-        a10 = {"key": "CEMARGOS", "values" : []};
+var stackedData = []
+var mapai = {}
+var chart2;
+var empresas = {'CEMARGOS':'CEMARGOS'}
+var fechas = {}
 
-        data.forEach(function(d) {
-        a1.values.push([parseInt(d.year), parseFloat(d.AGROCHAL)]);
-        a2.values.push([parseInt(d.year), parseFloat(d.BBVACOL)]);
-        a3.values.push([parseInt(d.year), parseFloat(d.BCOLOMBIA)]);
-        a4.values.push([parseInt(d.year), parseFloat(d.BIOMAX)]);
-        a5.values.push([parseInt(d.year), parseFloat(d.BMC)]);
-        a6.values.push([parseInt(d.year), parseFloat(d.BVC)]);
-        a7.values.push([parseInt(d.year), parseFloat(d.CARACOLTV)]);
-        a8.values.push([parseInt(d.year), parseFloat(d.CARTON)]);
-        a9.values.push([parseInt(d.year), parseFloat(d.CELSIA)]);
-        a10.values.push([parseInt(d.year), parseFloat(d.CEMARGOS)]);
+loadGraph();
+
+function updateSuperComparison()
+{   
+    var values = $('#tablela').val();
+    values.forEach(function(value) {
+        empresas[value] = value
+    });
+    chart2 = {}
+
+     d3.select('#chart2').html("");
+
+    loadGraph();
+
+}
+
+function loadData()
+{
+d3.csv('bvc.csv', function(data)
+{
+    fechas = {}
+    data.forEach(function(entry) {
+    fecha = new Date((entry.FECHA.trim()).split("/").reverse().join("/")).getTime();
+    nemo = entry.NEMO.trim();
+
+        if(empresas[nemo])
+        {
+        fechas[fecha] = fechas[fecha] || {'arreglo':[], 'fecha':fecha}
+        fechas[fecha]['arreglo'].push(nemo)
+        }
 
 
     });
-    histcatexplong.push(a1);
-    histcatexplong.push(a2);
-    histcatexplong.push(a3);
-    histcatexplong.push(a4);
-    histcatexplong.push(a5);
-    histcatexplong.push(a6);
-    histcatexplong.push(a7);
-    histcatexplong.push(a8);
-    histcatexplong.push(a9);
-    histcatexplong.push(a10);
+
+        fechasArray = Object.values(fechas);
+
+        for (var i = 0; i < fechasArray.length; i++) {
+            
+            if(fechasArray[i]['arreglo'].length != Object.values(empresas).length)
+           {
+            delete fechas[fechasArray[i]['fecha']]
+           }       
+        }
+
+        console.log(fechas)
+
+
+    data.forEach(function(entry) {
+    nemo = entry.NEMO.trim();
+    fecha = new Date((entry.FECHA.trim()).split("/").reverse().join("/")).getTime();
+    volumen = entry.VOLUMEN.trim();
+
+        if(!mapai[nemo] && (empresas[nemo]))
+        {
+            mapai[nemo] = {"key": nemo, "values":[]}
+        }
+
+        if(empresas[nemo] && fechas[fecha])
+        {
+        mapai[nemo].values.push([fecha, volumen])
+
+        }
 });
 
 
+        delete mapai['ICOLRISK']
+        delete mapai['GRUBOLIVAR']
+        delete mapai['TITAN']
 
-
-    var colors = d3.scale.category20();
-
-    var chart2;
-    nv.addGraph(function() {
-        chart2 = nv.models.stackedAreaChart()
-            .useInteractiveGuideline(true)
-            .x(function(d) { return d[0] })
-            .y(function(d) { return d[1] })
-            .controlLabels({stacked: "Stacked"})
-            .duration(100);
-
-        chart2.xAxis.tickFormat(d3.format('d'));
-        chart2.yAxis.tickFormat(d3.format('d'));
-
-        chart2.legend.vers('furious');
-
+        stackedData = Object.values(mapai);
         d3.select('#chart2')
-            .datum(histcatexplong)
-            .transition().duration(200)
-            .call(chart2)
-            .each('start', function() {
-                setTimeout(function() {
-                    d3.selectAll('#chart2 *').each(function() {
-                        if(this.__transition__)
-                            this.__transition__.duration = 1;
-                    })
-                }, 0)
-            });
+      .datum(stackedData)
+      .call(chart2);
 
-        nv.utils.windowResize(chart2.update);
-        console.log("termina");
-        return chart2;
+    nv.utils.windowResize(chart2.update);
+});
+}
+
+
+function loadGraph()
+{
+    loadData();
+  nv.addGraph(function() {
+    chart2 = nv.models.stackedAreaChart()
+                  .margin({right: 100})
+                  .x(function(d) { return d[0] })   //We can modify the data accessor functions...
+                  .y(function(d) { return d[1] })   //...in case your data is formatted differently.
+                  .useInteractiveGuideline(true)    //Tooltips which show all data points. Very nice!
+                  .rightAlignYAxis(true)      //Let's move the y-axis to the right side.
+                  .showControls(true)       //Allow user to choose 'Stacked', 'Stream', 'Expanded' mode.
+                  .clipEdge(true);
+
+    //Format x-axis labels with custom function.
+    chart2.xAxis
+        .tickFormat(function(d) { 
+          return d3.time.format('%x')(new Date(d)) 
     });
 
-    document.addEventListener("DOMContentLoaded", function (event) {
-                        window.dispatchEvent(new Event('resize'));
+    chart2.yAxis
+        .tickFormat(d3.format(',.2f'));
 
-});
+    nv.utils.windowResize(chart2.update);
 
-    $(document).ready(function(){ window.dispatchEvent(new Event('resize')); }) 
-
-        window.onscroll = function () {
-                window.dispatchEvent(new Event('resize'));
-    }
+    return chart2;
+  });
+}
 
 
 

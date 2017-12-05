@@ -21,11 +21,12 @@
 		<script src="https://unpkg.com/sweetalert2@7.0.7/dist/sweetalert2.all.js"></script>
 		<style type="text/css">
 			#chart2{
-		margin: 40px;
-		padding: 50px;
-		height: 800px;
-		width: 80%;
+		height: 700px;
+		width: 100%;
 		display: block;
+		}
+				#tablela{
+							height: 200px;
 		}
 		</style>
 		<link rel="stylesheet" href="fa/css/font-awesome.min.css">
@@ -121,76 +122,108 @@
 						<div class ="stacked_s">
 							<h1> Comparison between stocks</h1>
 							<div class="row">
-								<div class="col-md-3">
-									<a href="javascript:void(0);" onclick="heatInfo()" class="btn btn-primary"><i class="fa fa-info-circle fa-1x" aria-hidden="true"></i>
-									Stacked, stream and expanded</a>
+								<div class="col-md-8">
+									<select name="skills" multiple="" class="ui fluid dropdown" id="tablela">
+										<option value="AGROCHAL">AGROCHAL</option>
+										<option value="BBVACOL">BBVACOL</option>
+										<option value="BCOLOMBIA">BCOLOMBIA</option>
+										<option value="BIOMAX">BIOMAX</option>
+										<option value="BMC">BMC</option>
+										<option value="BOGOTA">BOGOTA</option>
+										<option value="BVC">BVC</option>
+										<option value="CARACOLTV">CARACOLTV</option>
+										<option value="CARTON">CARTON</option>
+										<option value="CELSIA">CELSIA</option>
+										<option value="CEMARGOS">CEMARGOS</option>
+										<option value="CLH">CLH</option>
+										<option value="CNEC">CNEC</option>
+										<option value="COLOMBINA">COLOMBINA</option>
+										<option value="COLTEJER">COLTEJER</option>
+										<option value="CONCIVILES">CONCIVILES</option>
+										<option value="CONCONCRET">CONCONCRET</option>
+										<option value="COOMEVAEPS">COOMEVAEPS</option>
+									</select>
 								</div>
-								<div class="col-md-2">
-									<a href="javascript:void(0);" onclick="heatInfo()" class="btn btn-primary"><i class="fa fa-info-circle fa-1x" aria-hidden="true"></i>
-									Volume of transactions</a>
+								<div class="col-md-4">
+									<a href="javascript:void(0);" onclick="updateSuperComparison()" class="btn btn-primary"><i class="fa fa-info-circle fa-1x" aria-hidden="true"></i>
+									Choose stocks</a>						</div>
 								</div>
+								<br>
+								<div class="row">
+									<div class="col-md-3">
+										<a href="javascript:void(0);" onclick="heatInfo()" class="btn btn-primary"><i class="fa fa-info-circle fa-1x" aria-hidden="true"></i>
+										Stacked, stream and expanded</a>
+									</div>
+									<div class="col-md-2">
+										<a href="javascript:void(0);" onclick="heatInfo()" class="btn btn-primary"><i class="fa fa-info-circle fa-1x" aria-hidden="true"></i>
+										Volume of transactions</a>
+									</div>
+								</div>
+							<svg id="chart2"></svg>
+							
+						</div>
+						<div class="heatmap">
+							<h1> How do stocks correlate between them?</h1>
+							<section id="header2">
+							</section>
+							<aside style="font-style:italic;
+								float:right;width:250px;
+								border:1px solid;
+								margin: 5em auto auto auto;"
+								>
 							</div>
-						<svg id="chart2"></svg>
-						
-					</div>
-					<div class="heatmap">
-						<h1> How do stocks correlate between them?</h1>
-						<section id="header2">
-						</section>
-						<aside style="font-style:italic;
-							float:right;width:250px;
-							border:1px solid;
-							margin: 5em auto auto auto;"
-							>
 						</div>
 					</div>
-				</div>
-			</main>
-			<footer class="text-muted">
-				<div class="container">
-					<p class="float-right">
-						<a href="#">Back to top</a>
-					</p>
-					<p>Diana Solano, Juan José Díaz, Santiago Liñán</p>
-					<p>Visual Analytics, Universidad de los Andes, Colombia</a></p>
-				</div>
-			</footer>
-			<!-- Bootstrap core JavaScript
-			================================================== -->
-			<!-- Placed at the end of the document so the pages load faster -->
-			
-			<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-			<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-			<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-			<script>
-			$( function() {
-			$( ".datepicker" ).datepicker({
-			dateFormat: "d/mm/yy"
-			});
-			} );
-			function heatInfo()
-			{
-				swal(
-			'The Internet?',
-			'That thing is still around? dsd sdsddds d sd s d sd sd sdsds  ds ds d ssddsdsdsdsdsds',
-			'question'
-			)
-			}
-			</script>
-			<script src="assets/js/vendor/popper.min.js"></script>
-			<script src="dist/js/bootstrap.min.js"></script>
-			<script src="assets/js/vendor/holder.min.js"></script>
-			<script>
-			Holder.addTheme('thumb', {
-			bg: '#55595c',
-			fg: '#eceeef',
-			text: 'Thumbnail'
-			});
-			</script>
-			<script src="treeMapZoom.js"></script>
-			<script src="lineChart.js"></script>
-			<script src="stacked.js"></script>
-			<script type="text/javascript" src="matrix-view.js"></script>
-			<script type="text/javascript" src="intro/intro.min.js"></script>
-		</body>
-	</html>
+				</main>
+				<footer class="text-muted">
+					<div class="container">
+						<p class="float-right">
+							<a href="#">Back to top</a>
+						</p>
+						<p>Diana Solano, Juan José Díaz, Santiago Liñán</p>
+						<p>Visual Analytics, Universidad de los Andes, Colombia</a></p>
+					</div>
+				</footer>
+				<!-- Bootstrap core JavaScript
+				================================================== -->
+				<!-- Placed at the end of the document so the pages load faster -->
+				
+				<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+				<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+				<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+				<script src="dropdown/semantic.js"></script>
+				<link href="dropdown/semantic.css" rel="stylesheet">
+				<script src="dropdown/dmin.js"></script>
+				<link href="dropdown/dmin.css" rel="stylesheet">
+				<script>
+				$( function() {
+				$( ".datepicker" ).datepicker({
+				dateFormat: "d/mm/yy"
+				});
+				} );
+				function heatInfo()
+				{
+					swal(
+				'The Internet?',
+				'That thing is still around? dsd sdsddds d sd s d sd sd sdsds  ds ds d ssddsdsdsdsdsds',
+				'question'
+				)
+				}
+				</script>
+				<script src="assets/js/vendor/popper.min.js"></script>
+				<script src="dist/js/bootstrap.min.js"></script>
+				<script src="assets/js/vendor/holder.min.js"></script>
+				<script>
+				Holder.addTheme('thumb', {
+				bg: '#55595c',
+				fg: '#eceeef',
+				text: 'Thumbnail'
+				});
+				</script>
+				<script src="treeMapZoom.js"></script>
+				<script src="lineChart.js"></script>
+				<script src="stacked.js"></script>
+				<script type="text/javascript" src="matrix-view.js"></script>
+				<script type="text/javascript" src="intro/intro.min.js"></script>
+			</body>
+		</html>
