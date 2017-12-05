@@ -27,6 +27,8 @@
     <script src="nv/nv.d3.js" id="nv"></script>
     <script src="https://d3js.org/colorbrewer.v1.min.js"></script>
     <script src="legend.js"></script>
+        <script src="https://unpkg.com/sweetalert2@7.0.7/dist/sweetalert2.all.js"></script>
+
 
     <style type="text/css">
     	        #chart2{
@@ -108,7 +110,7 @@
               <a href="video.html">
               <img src="video.png" alt="Video" width="360px" height="250px">
               </a>
-              <p class="card-text">Demo video of the visualizations/p>
+              <p class="card-text">Demo video of the visualizations</p>
             </div>
             <div class="card">
               <img src="paper.png" alt="Paper" width="360px" height="250px">
@@ -126,10 +128,22 @@
 
 			<p data-step="2" data-intro="Chose a starting date for the analysis">Starting date: <input type="text" class="datepicker form-control" id="date1" value="4/01/2016"></p>
 			<p data-step="3" data-intro="Chose an ending date for the analysis">Final date: <input type="text" class="datepicker form-control" id="date2" value="4/01/2016"></p>
-			<p><button class="btn btn-info" onclick="changeDate()">Consultar</button> </p>
+			<p><button class="btn btn-info" onclick="changeDate()">Analyze</button> </p>
+
 			<div class="feature" id="chart"></div>
+
+			<div class="row">
+			<div class="col-md-2">
+            <a href="javascript:void(0);" onclick="heatInfo()" class="btn btn-primary"><i class="fa fa-info-circle fa-1x" aria-hidden="true"></i>
+            Financial sectors</a> 
+        	</div>
+        				<div class="col-md-2">
+            <a href="javascript:void(0);" onclick="heatInfo()" class="btn btn-primary"><i class="fa fa-info-circle fa-1x" aria-hidden="true"></i>
+            Volume of transactions</a> 
+        	</div>
+    		</div>
+
 			<div id="priceChart"></div>
-          </div>
 
           <div class ="stacked_s">
 
@@ -177,6 +191,16 @@
         dateFormat: "d/mm/yy"
     });
   } );
+
+function heatInfo() 
+{
+	swal(
+  'The Internet?',
+  'That thing is still around? dsd sdsddds d sd s d sd sd sdsds  ds ds d ssddsdsdsdsdsds',
+  'question'
+)
+}
+
   </script>
 
     <script src="assets/js/vendor/popper.min.js"></script>
