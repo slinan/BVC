@@ -1,4 +1,4 @@
-var margind = {top: 220, right: 180, bottom: 100, left: 220},
+var margind = {top: 120, right: 180, bottom: 100, left: 220},
     widthd = 1000,
     heightd = 1000;
 
