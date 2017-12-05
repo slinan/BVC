@@ -1,10 +1,10 @@
 var margind = {top: 220, right: 180, bottom: 100, left: 220},
-    widthd = 750,
-    heightd = 750;
+    widthd = 1000,
+    heightd = 1000;
 
 var x = d3.scale.ordinal().rangeBands([0, widthd]),
     z = d3.scale.linear().domain([0, 4]).clamp(true),
-    c = d3.scale.category10().domain(d3.range(10))
+    c = d3.scale.category20c().domain(d3.range(10)),
     value = 0;
 
 var svgd = d3.select("#header2").append("svg")
@@ -30,13 +30,14 @@ d3.json("miserables.json", function(miserables) {
   nodes.forEach(function(node, i) {
     node.index = i;
     node.count = 0;
-    console.log(node);
-    matrix[i] = d3.range(n).map(function(j) { return {x: j, y: i, z: 0, value: node.index}; });
+    matrix[i] = d3.range(n).map(function(j) { return {x: j, y: i, z: 0, source: node.abb, 't': 'nada'}; });
   });
 
   // Convert links to matrix; count character occurrences.
   links.forEach(function(link) {
     matrix[link.source][link.target].z = link.peso;
+    matrix[link.target][link.source].z = link.peso;
+    matrix[link.source][link.target]['t'] = link.target;
     // matrix[link.target][link.source].z += 4;
     // matrix[link.source][link.source].z += 4;
     // matrix[link.target][link.target].z += 4;
@@ -45,14 +46,7 @@ d3.json("miserables.json", function(miserables) {
     sampleCategoricalData[nodes[link.source].group] = nodes[link.source].region;
   });
 
-  verticalLegend = d3.svg.legend().labelFormat("none")
-  .cellPadding(7).orientation("vertical")
-  .units("Sector").cellWidth(25).cellHeight(18)
-  .inputScale(c,sampleCategoricalData).cellStepping(10);
 
-  d3.selectAll("#svgd")
-  .append("g").attr("transform", "translate("+(widthd+300)+",250)")
-  .attr("class", "legend").call(verticalLegend);
 
   
 
@@ -85,6 +79,7 @@ d3.json("miserables.json", function(miserables) {
       .attr("fill", "white");
 
   row.append("text")
+      .attr("class","tmatriz")
       .attr("x", -6)
       .attr("y", x.rangeBand() / 2)
       .attr("dy", ".32em")
@@ -93,7 +88,7 @@ d3.json("miserables.json", function(miserables) {
 
   var column = svgd.selectAll(".column")
       .data(matrix)
-    .enter().append("g")
+      .enter().append("g")
       .attr("class", "column")
       .attr("transform", function(d, i) { return "translate(" + x(i) + ")rotate(-90)"; });
 
@@ -101,6 +96,7 @@ d3.json("miserables.json", function(miserables) {
       .attr("x1", -widthd);
 
   column.append("text")
+      .attr("class","tmatriz")
       .attr("x", 6)
       .attr("y", x.rangeBand() / 2)
       .attr("margin-left","20px")
@@ -130,10 +126,10 @@ d3.json("miserables.json", function(miserables) {
     div.transition()  
     .duration(200)    
     .style("opacity", .9);  
-    var icon ='"ion-leaf"'  
-    div.html("<i class=<b> Correlación</b></br>" + p.z)
+    div.html("<div class=pop >Matches " +p.source+": "+ p.z+"</div>")
     .style("left", (d3.event.pageX + 15 ) + "px")   
     .style("top", (d3.event.pageY - 45) + "px");
+    console.log(p);
                                  
   }
 

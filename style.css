@@ -2,6 +2,14 @@ body {
   min-height: 75rem; /* Can be removed; just added for demo purposes */
 }
 
+.pop{
+  background-color: white;
+  font-size: 20px !important;
+}
+
+.tmatriz {
+  font-size: 10px;
+}
 .navbar {
   margin-bottom: 0;
 }
