@@ -39,6 +39,7 @@
     </style>
 
     <link rel="stylesheet" href="fa/css/font-awesome.min.css">
+    <link href="intro/introjs.min.css" rel="stylesheet">
 
 
 
@@ -51,15 +52,15 @@
         <div class="container">
           <div class="row">
             <div class="col-sm-8 py-4">
-              <h4 class="text-white">Acerca de nosotros</h4>
-              <p class="text-muted">En este párrafo va la info del grupo</p>
+              <h4 class="text-white">About us</h4>
+              <p class="text-white">Juan José Díaz, Diana Catalina and Santiago Liñán, systems and computing engineering students at Universidad de los Andes, Bogotá, Colombia.</p>
             </div>
             <div class="col-sm-4 py-4">
               <h4 class="text-white">Contact</h4>
               <ul class="list-unstyled">
-                <li><a href="#" class="text-white">Follow on Twitter</a></li>
-                <li><a href="#" class="text-white">Like on Facebook</a></li>
-                <li><a href="#" class="text-white">Email me</a></li>
+                <li><a href="https://github.com/jj-diaz1067" class="text-white">Juan José Díaz</a></li>
+                <li><a href="https://github.com/dcsolano10" class="text-white">Diana Solano</a></li>
+                <li><a href="https://github.com/slinan" class="text-white">Santiago Liñán</a></li>
               </ul>
             </div>
           </div>
@@ -85,7 +86,7 @@
                   </p>
 
           <p>
-            <a href="#" class="btn btn-primary">How to start?</a>
+            <a href="javascript:void(0);" onclick="javascript:introJs().setOption('showProgress', true).start();" class="btn btn-primary">How to start?</a>
             <a href="https://github.com/slinan/BVC" class="btn btn-secondary"><i class="fa fa-github fa-1x" aria-hidden="true"></i>  View on GitHub</a>
           </p>
         </div>
@@ -94,12 +95,14 @@
       <div class="album text-muted">
         <div class="container">
 
+        	<div class="intro" data-step="1" data-intro="What are we doing here?">
         <p class="lead text-muted">
           Among the financial markets a basic goal is to communicate easily and fast the state of the financial stocks that belong to a bourse, this is given by the volatile nature of trading and the large amounts of money involved.</p>
 
           <p class="lead text-muted">
 			Nowadays, professional traders and investors have specialized and powerful software to analyze the market, however, beginners in the world of finances go through enormous barriers to understand the market. The purpose of this tool is to support the learning process of new investors in the colombian stock exchange (BVC), and motivate people with limited knowledge in the finance world to make the first move in the market.
           </p>
+      </div>
           <div class="row">
             <div class="card">
               <a href="video.html">
@@ -121,8 +124,8 @@
 
           <div class="treemap_jj">
 
-			<p>Fecha Inicial: <input type="text" class="datepicker form-control" id="date1" value="4/01/2016"></p>
-			<p>Fecha Final: <input type="text" class="datepicker form-control" id="date2" value="4/01/2016"></p>
+			<p data-step="2" data-intro="Chose a starting date for the analysis">Starting date: <input type="text" class="datepicker form-control" id="date1" value="4/01/2016"></p>
+			<p data-step="3" data-intro="Chose an ending date for the analysis">Final date: <input type="text" class="datepicker form-control" id="date2" value="4/01/2016"></p>
 			<p><button class="btn btn-info" onclick="changeDate()">Consultar</button> </p>
 			<div class="feature" id="chart"></div>
 			<div id="priceChart"></div>
@@ -155,8 +158,8 @@
         <p class="float-right">
           <a href="#">Back to top</a>
         </p>
-        <p>Album example is &copy; Bootstrap, but please download and customize it for yourself!</p>
-        <p>New to Bootstrap? <a href="../../">Visit the homepage</a> or read our <a href="../../getting-started/">getting started guide</a>.</p>
+        <p>Diana Solano, Juan José Díaz, Santiago Liñán</p>
+        <p>Visual Analytics, Universidad de los Andes, Colombia</a></p>
       </div>
     </footer>
 
@@ -190,6 +193,7 @@
     <script src="lineChart.js"></script>
     <script src="stacked.js"></script>
     <script type="text/javascript" src="matrix-view.js"></script>
+    <script type="text/javascript" src="intro/intro.min.js"></script>
 
 
   </body>
