@@ -143,3 +143,12 @@ d3.json("miserables.json", function(miserables) {
   }
 
 });
+
+        function financialInfo()
+        {
+          swal(
+        'Financial info',
+        'Esta es la descripción de lo que significa',
+        'question'
+        )
+        };
