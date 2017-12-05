@@ -39,7 +39,7 @@
 					<div class="row">
 						<div class="col-sm-8 py-4">
 							<h4 class="text-white">About us</h4>
-							<p class="text-white">Juan José Díaz, Diana Catalina and Santiago Liñán, systems and computing engineering students at Universidad de los Andes, Bogotá, Colombia.</p>
+							<p class="text-white">We are Juan José Díaz, Diana Catalina Solano and Santiago Liñán, systems and computing engineering students at Universidad de los Andes, Bogotá, Colombia.</p>
 						</div>
 						<div class="col-sm-4 py-4">
 							<h4 class="text-white">Contact</h4>
@@ -105,14 +105,14 @@
 						<p data-step="2" data-intro="Chose a starting date for the analysis">Starting date: <input type="text" class="datepicker form-control" id="date1" value="4/01/2016"></p>
 						<p data-step="3" data-intro="Chose an ending date for the analysis">Final date: <input type="text" class="datepicker form-control" id="date2" value="4/01/2016"></p>
 						<p><button class="btn btn-info" onclick="changeDate()">Analyze</button> </p>
-						<h1> Volume of transactions by financial sector </h1>
-						<div class="row">
-							<div class="col-md-2">
+						<h1> Volume of transactions by stock sector </h1>
+						<div class="row" data-step="4" data-intro="Explore the number of transactions per stock">
+							<div class="col-md-2" data-step="5" data-intro="What are the stock sectors?">
 								<a href="javascript:void(0);" onclick="financialInfo()" class="btn btn-primary"><i class="fa fa-info-circle fa-1x" aria-hidden="true"></i>
-								Financial sectors</a>
+								Stock sectors</a>
 							</div>
-							<div class="col-md-2">
-								<a href="javascript:void(0);" onclick="heatInfo()" class="btn btn-primary"><i class="fa fa-info-circle fa-1x" aria-hidden="true"></i>
+							<div class="col-md-2" data-step="6" data-intro="What is the volume of transactions??">
+								<a href="javascript:void(0);" onclick="volumeInfo()" class="btn btn-primary"><i class="fa fa-info-circle fa-1x" aria-hidden="true"></i>
 								Volume of transactions</a>
 							</div>
 						</div>
@@ -120,15 +120,11 @@
 						<h1> Stock price throug time </h1>
 						<div id="priceChart"></div>
 						<div class ="stacked_s">
-							<h1> Comparison between stocks</h1>
+							<h1 data-step="7" data-intro="Find the behavior of multiple stocks during a year"> Comparison between stocks</h1>
 								<br>
 								<div class="row">
-									<div class="col-md-3">
-										<a href="javascript:void(0);" onclick="heatInfo()" class="btn btn-primary"><i class="fa fa-info-circle fa-1x" aria-hidden="true"></i>
-										Stacked, stream and expanded</a>
-									</div>
 									<div class="col-md-2">
-										<a href="javascript:void(0);" onclick="heatInfo()" class="btn btn-primary"><i class="fa fa-info-circle fa-1x" aria-hidden="true"></i>
+										<a href="javascript:void(0);" onclick="volumeInfo()" class="btn btn-primary"><i class="fa fa-info-circle fa-1x" aria-hidden="true"></i>
 										Volume of transactions</a>
 									</div>
 								</div>
@@ -136,7 +132,12 @@
 							
 						</div>
 						<div class="heatmap">
-							<h1> How do stocks correlate between them?</h1>
+							<h1 data-step="8" data-intro="Find the dependencies between stocks and learn about risk aversion"> How do stocks depend between them?</h1>
+								<div class="col-md-3">
+									<a href="javascript:void(0);" onclick="corrInfo()" class="btn btn-primary"><i class="fa fa-info-circle fa-1x" aria-hidden="true"></i>
+									Dependencies</a>
+									</div>
+							
 							<section id="header2">
 							</section>
 							<aside style="font-style:italic;
