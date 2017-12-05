@@ -1,18 +1,23 @@
-var margind = {top: 80, right: 180, bottom: 100, left: 80},
-    widthd = 750,
-    heightd = 750;
+var margind = {top: 220, right: 180, bottom: 100, left: 220},
+    widthd = 1000,
+    heightd = 1000;
 
 var x = d3.scale.ordinal().rangeBands([0, widthd]),
     z = d3.scale.linear().domain([0, 4]).clamp(true),
-    c = d3.scale.category10().domain(d3.range(7));
+    c = d3.scale.category20c().domain(d3.range(10)),
+    value = 0;
 
 var svgd = d3.select("#header2").append("svg")
     .attr("id","svgd")
     .attr("width", widthd + margind.left + margind.right)
     .attr("height", heightd + margind.top + margind.bottom)
     .style("margin-left", -margind.left + "px")
-  .append("g")
+    .append("g")
     .attr("transform", "translate(" + margind.left + "," + margind.top + ")");
+
+var div = d3.select("body").append("div") 
+    .attr("class", "tooltip")       
+    .style("opacity", 0);
 
 d3.json("miserables.json", function(miserables) {
   var matrix = [],
@@ -25,13 +30,15 @@ d3.json("miserables.json", function(miserables) {
   nodes.forEach(function(node, i) {
     node.index = i;
     node.count = 0;
-    matrix[i] = d3.range(n).map(function(j) { return {x: j, y: i, z: 0}; });
+    matrix[i] = d3.range(n).map(function(j) { return {x: j, y: i, z: 0, source: node.abb, 't': 'nada'}; });
   });
 
   // Convert links to matrix; count character occurrences.
   links.forEach(function(link) {
-    matrix[link.source][link.target].z += 4;
-    matrix[link.target][link.source].z += 4;
+    matrix[link.source][link.target].z = link.peso;
+    matrix[link.target][link.source].z = link.peso;
+    matrix[link.source][link.target]['t'] = link.target;
+    // matrix[link.target][link.source].z += 4;
     // matrix[link.source][link.source].z += 4;
     // matrix[link.target][link.target].z += 4;
     nodes[link.source].count++;
@@ -39,19 +46,14 @@ d3.json("miserables.json", function(miserables) {
     sampleCategoricalData[nodes[link.source].group] = nodes[link.source].region;
   });
 
-sampleCategoricalData[0]="Different Region";
 
-  verticalLegend = d3.svg.legend().labelFormat("none").cellPadding(5).orientation("vertical").units("Sector").cellWidth(25).cellHeight(18).inputScale(c,sampleCategoricalData).cellStepping(10);
-
-  d3.selectAll("#svgd")
-.append("g").attr("transform", "translate("+(widthd+130)+",250)").attr("class", "legend").call(verticalLegend);
 
   
 
 
   // Precompute the orders.
   var orders = {
-    name: d3.range(n).sort(function(a, b) { return d3.ascending(nodes[a].name, nodes[b].name); }),
+   name: d3.range(n).sort(function(a, b) { return d3.ascending(nodes[a].name, nodes[b].name); }),
    count: d3.range(n).sort(function(a, b) { return nodes[b].count - nodes[a].count; }),
    group: d3.range(n).sort(function(a, b) { return nodes[a].group - nodes[b].group; })
   };
@@ -67,15 +69,17 @@ sampleCategoricalData[0]="Different Region";
 
   var row = svgd.selectAll(".row")
       .data(matrix)
-    .enter().append("g")
+      .enter().append("g")
       .attr("class", "row")
       .attr("transform", function(d, i) { return "translate(0," + x(i) + ")"; })
       .each(row);
 
   row.append("line")
-      .attr("x2", widthd);
+      .attr("x2", widthd)
+      .attr("fill", "white");
 
   row.append("text")
+      .attr("class","tmatriz")
       .attr("x", -6)
       .attr("y", x.rangeBand() / 2)
       .attr("dy", ".32em")
@@ -84,7 +88,7 @@ sampleCategoricalData[0]="Different Region";
 
   var column = svgd.selectAll(".column")
       .data(matrix)
-    .enter().append("g")
+      .enter().append("g")
       .attr("class", "column")
       .attr("transform", function(d, i) { return "translate(" + x(i) + ")rotate(-90)"; });
 
@@ -92,8 +96,10 @@ sampleCategoricalData[0]="Different Region";
       .attr("x1", -widthd);
 
   column.append("text")
+      .attr("class","tmatriz")
       .attr("x", 6)
       .attr("y", x.rangeBand() / 2)
+      .attr("margin-left","20px")
       .attr("dy", ".32em")
       .attr("text-anchor", "start")
       .text(function(d, i) { return nodes[i].name; });
@@ -106,8 +112,7 @@ sampleCategoricalData[0]="Different Region";
         .attr("x", function(d) { return x(d.x); })
         .attr("width", x.rangeBand())
         .attr("height", x.rangeBand())
-        .style("fill-opacity", function(d) { return z(d.z); })
-        .style("fill", function(d) { return nodes[d.x].group == nodes[d.y].group ? c(nodes[d.x].group) : c(0); })
+        .style("fill", function(d) { return c(d.z); })
         .on("mouseover", mouseover)
         .on("mouseout", mouseout);
   }
@@ -116,13 +121,25 @@ sampleCategoricalData[0]="Different Region";
   function mouseover(p) {
     d3.selectAll(".row text").classed("active", function(d, i) { return i == p.y; });
     d3.selectAll(".column text").classed("active", function(d, i) { return i == p.x; });
-     
+    d3.select(this)
+    .style("opacity", .6);
+    div.transition()  
+    .duration(200)    
+    .style("opacity", .9);  
+    div.html("<div class=pop >Matches " +p.source+": "+ p.z+"</div>")
+    .style("left", (d3.event.pageX + 15 ) + "px")   
+    .style("top", (d3.event.pageY - 45) + "px");
+    console.log(p);
+                                 
   }
 
   function mouseout() {
     d3.selectAll("text").classed("active", false);
-     d3.selectAll(".bobson").attr("width",x.rangeBand());
-     d3.selectAll(".bobson").attr("height",x.rangeBand());
+     d3.select(this)
+     .style("opacity", 1);
+     div.transition()    
+     .duration(500)    
+     .style("opacity", 0);
   }
 
 });
