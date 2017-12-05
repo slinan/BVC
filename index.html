@@ -1,224 +1,196 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="icon" href="favicon.ico">
-
-    <title>BVC</title>
-
-    <!-- Bootstrap core CSS -->
-    <link href="dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
-    <link href="style.css" rel="stylesheet">
-
-
-
-      <script src="js/moment.js"></script>
-
-
-  <script src="js/d3.v3.js"></script>
-  <script src="js/d3.v4.js"></script>
-
-    <link href="nv/nv.d3.css" rel="stylesheet" type="text/css">
-    <script src="nv/nv.d3.js" id="nv"></script>
-    <script src="https://d3js.org/colorbrewer.v1.min.js"></script>
-    <script src="legend.js"></script>
-        <script src="https://unpkg.com/sweetalert2@7.0.7/dist/sweetalert2.all.js"></script>
-
-
-    <style type="text/css">
-    	        #chart2{
-            margin: 100px;
-            padding: 20px;
-            height: 800px;
-            width: 90%;
-            display: block;
-        }
-    </style>
-
-    <link rel="stylesheet" href="fa/css/font-awesome.min.css">
-    <link href="intro/introjs.min.css" rel="stylesheet">
-
-
-
-  </head>
-
-  <body>
-
-    <header>
-      <div class="collapse bg-dark" id="navbarHeader">
-        <div class="container">
-          <div class="row">
-            <div class="col-sm-8 py-4">
-              <h4 class="text-white">About us</h4>
-              <p class="text-white">Juan José Díaz, Diana Catalina and Santiago Liñán, systems and computing engineering students at Universidad de los Andes, Bogotá, Colombia.</p>
-            </div>
-            <div class="col-sm-4 py-4">
-              <h4 class="text-white">Contact</h4>
-              <ul class="list-unstyled">
-                <li><a href="https://github.com/jj-diaz1067" class="text-white">Juan José Díaz</a></li>
-                <li><a href="https://github.com/dcsolano10" class="text-white">Diana Solano</a></li>
-                <li><a href="https://github.com/slinan" class="text-white">Santiago Liñán</a></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="navbar navbar-dark bg-dark">
-        <div class="container d-flex justify-content-between">
-          <a href="#" class="navbar-brand">BVC</a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-        </div>
-      </div>
-    </header>
-
-    <main role="main">
-
-      <section class="jumbotron text-center">
-        <div class="container">
-          <h1 class="jumbotron-heading">BVC</h1>
-                  <p class="lead text-muted">
-                  	Colombian Stock Exchange
-                  </p>
-
-          <p>
-            <a href="javascript:void(0);" onclick="javascript:introJs().setOption('showProgress', true).start();" class="btn btn-primary">How to start?</a>
-            <a href="https://github.com/slinan/BVC" class="btn btn-secondary"><i class="fa fa-github fa-1x" aria-hidden="true"></i>  View on GitHub</a>
-          </p>
-        </div>
-      </section>
-
-      <div class="album text-muted">
-        <div class="container">
-
-        	<div class="intro" data-step="1" data-intro="What are we doing here?">
-        <p class="lead text-muted">
-          Among the financial markets a basic goal is to communicate easily and fast the state of the financial stocks that belong to a bourse, this is given by the volatile nature of trading and the large amounts of money involved.</p>
-
-          <p class="lead text-muted">
-			Nowadays, professional traders and investors have specialized and powerful software to analyze the market, however, beginners in the world of finances go through enormous barriers to understand the market. The purpose of this tool is to support the learning process of new investors in the colombian stock exchange (BVC), and motivate people with limited knowledge in the finance world to make the first move in the market.
-          </p>
-      </div>
-          <div class="row">
-            <div class="card">
-              <a href="video.html">
-              <img src="video.png" alt="Video" width="360px" height="250px">
-              </a>
-              <p class="card-text">Demo video of the visualizations</p>
-            </div>
-            <div class="card">
-              <img src="paper.png" alt="Paper" width="360px" height="250px">
-              <p class="card-text">Paper</p>
-            </div>
-            <div class="card">
-              <a href="https://github.com/slinan/BVC">
-              <img src="github.png" alt="GitHub" width="360px" height="250px">
-          	  </a>
-              <p class="card-text">On GitHub</p>
-            </div>
-          </div>
-
-          <div class="treemap_jj">
-
-			<p data-step="2" data-intro="Chose a starting date for the analysis">Starting date: <input type="text" class="datepicker form-control" id="date1" value="4/01/2016"></p>
-			<p data-step="3" data-intro="Chose an ending date for the analysis">Final date: <input type="text" class="datepicker form-control" id="date2" value="4/01/2016"></p>
-			<p><button class="btn btn-info" onclick="changeDate()">Analyze</button> </p>
-
-			<div class="feature" id="chart"></div>
-
-			<div class="row">
-			<div class="col-md-2">
-            <a href="javascript:void(0);" onclick="heatInfo()" class="btn btn-primary"><i class="fa fa-info-circle fa-1x" aria-hidden="true"></i>
-            Financial sectors</a> 
-        	</div>
-        				<div class="col-md-2">
-            <a href="javascript:void(0);" onclick="heatInfo()" class="btn btn-primary"><i class="fa fa-info-circle fa-1x" aria-hidden="true"></i>
-            Volume of transactions</a> 
-        	</div>
-    		</div>
-
-			<div id="priceChart"></div>
-
-          <div class ="stacked_s">
-
-          	    <svg id="chart2"></svg>
-
-          </div>
-
-          <div class="heatmap">
-            <section id="header2">
-            </section>
-            <aside style="font-style:italic;
-        float:right;width:250px;
-        border:1px solid;
-         margin: 5em auto auto auto;"
-
-        >
-          </div>
-
-        </div>
-      </div>
-
-    </main>
-
-    <footer class="text-muted">
-      <div class="container">
-        <p class="float-right">
-          <a href="#">Back to top</a>
-        </p>
-        <p>Diana Solano, Juan José Díaz, Santiago Liñán</p>
-        <p>Visual Analytics, Universidad de los Andes, Colombia</a></p>
-      </div>
-    </footer>
-
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-      
-      <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-
-    <script>
-  $( function() {
-    $( ".datepicker" ).datepicker({
-        dateFormat: "d/mm/yy"
-    });
-  } );
-
-function heatInfo() 
-{
-	swal(
-  'The Internet?',
-  'That thing is still around? dsd sdsddds d sd s d sd sd sdsds  ds ds d ssddsdsdsdsdsds',
-  'question'
-)
-}
-
-  </script>
-
-    <script src="assets/js/vendor/popper.min.js"></script>
-    <script src="dist/js/bootstrap.min.js"></script>
-    <script src="assets/js/vendor/holder.min.js"></script>
-    <script>
-      Holder.addTheme('thumb', {
-        bg: '#55595c',
-        fg: '#eceeef',
-        text: 'Thumbnail'
-      });
-    </script>   
-    <script src="treeMapZoom.js"></script>
-    <script src="lineChart.js"></script>
-    <script src="stacked.js"></script>
-    <script type="text/javascript" src="matrix-view.js"></script>
-    <script type="text/javascript" src="intro/intro.min.js"></script>
-
-
-  </body>
-</html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<meta name="description" content="">
+		<meta name="author" content="">
+		<link rel="icon" href="favicon.ico">
+		<title>BVC</title>
+		<!-- Bootstrap core CSS -->
+		<link href="dist/css/bootstrap.min.css" rel="stylesheet">
+		<!-- Custom styles for this template -->
+		<link href="style.css" rel="stylesheet">
+		<script src="js/moment.js"></script>
+		<script src="js/d3.v3.js"></script>
+		<script src="js/d3.v4.js"></script>
+		<link href="nv/nv.d3.css" rel="stylesheet" type="text/css">
+		<script src="nv/nv.d3.js" id="nv"></script>
+		<script src="https://d3js.org/colorbrewer.v1.min.js"></script>
+		<script src="legend.js"></script>
+		<script src="https://unpkg.com/sweetalert2@7.0.7/dist/sweetalert2.all.js"></script>
+		<style type="text/css">
+			#chart2{
+		margin: 40px;
+		padding: 50px;
+		height: 800px;
+		width: 80%;
+		display: block;
+		}
+		</style>
+		<link rel="stylesheet" href="fa/css/font-awesome.min.css">
+		<link href="intro/introjs.min.css" rel="stylesheet">
+	</head>
+	<body>
+		<header>
+			<div class="collapse bg-dark" id="navbarHeader">
+				<div class="container">
+					<div class="row">
+						<div class="col-sm-8 py-4">
+							<h4 class="text-white">About us</h4>
+							<p class="text-white">Juan José Díaz, Diana Catalina and Santiago Liñán, systems and computing engineering students at Universidad de los Andes, Bogotá, Colombia.</p>
+						</div>
+						<div class="col-sm-4 py-4">
+							<h4 class="text-white">Contact</h4>
+							<ul class="list-unstyled">
+								<li><a href="https://github.com/jj-diaz1067" class="text-white">Juan José Díaz</a></li>
+								<li><a href="https://github.com/dcsolano10" class="text-white">Diana Solano</a></li>
+								<li><a href="https://github.com/slinan" class="text-white">Santiago Liñán</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="navbar navbar-dark bg-dark">
+				<div class="container d-flex justify-content-between">
+					<a href="#" class="navbar-brand">BVC</a>
+					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+					</button>
+				</div>
+			</div>
+		</header>
+		<main role="main">
+			<section class="jumbotron text-center">
+				<div class="container">
+					<h1 class="jumbotron-heading">BVC</h1>
+					<p class="lead text-muted">
+						Colombian Stock Exchange
+					</p>
+					<p>
+						<a href="javascript:void(0);" onclick="javascript:introJs().setOption('showProgress', true).start();" class="btn btn-primary">How to start?</a>
+						<a href="https://github.com/slinan/BVC" class="btn btn-secondary"><i class="fa fa-github fa-1x" aria-hidden="true"></i>  View on GitHub</a>
+					</p>
+				</div>
+			</section>
+			<div class="album text-muted">
+				<div class="container">
+					<div class="intro" data-step="1" data-intro="What are we doing here?">
+						<p class="lead text-muted">
+						Among the financial markets a basic goal is to communicate easily and fast the state of the financial stocks that belong to a bourse, this is given by the volatile nature of trading and the large amounts of money involved.</p>
+						<p class="lead text-muted">
+							Nowadays, professional traders and investors have specialized and powerful software to analyze the market, however, beginners in the world of finances go through enormous barriers to understand the market. The purpose of this tool is to support the learning process of new investors in the colombian stock exchange (BVC), and motivate people with limited knowledge in the finance world to make the first move in the market.
+						</p>
+					</div>
+					<div class="row">
+						<div class="card">
+							<a href="video.html">
+								<img src="video.png" alt="Video" width="360px" height="250px">
+							</a>
+							<p class="card-text">Demo video of the visualizations</p>
+						</div>
+						<div class="card">
+							<img src="paper.png" alt="Paper" width="360px" height="250px">
+							<p class="card-text">Paper</p>
+						</div>
+						<div class="card">
+							<a href="https://github.com/slinan/BVC">
+								<img src="github.png" alt="GitHub" width="360px" height="250px">
+							</a>
+							<p class="card-text">On GitHub</p>
+						</div>
+					</div>
+					<div class="treemap_jj">
+						<p data-step="2" data-intro="Chose a starting date for the analysis">Starting date: <input type="text" class="datepicker form-control" id="date1" value="4/01/2016"></p>
+						<p data-step="3" data-intro="Chose an ending date for the analysis">Final date: <input type="text" class="datepicker form-control" id="date2" value="4/01/2016"></p>
+						<p><button class="btn btn-info" onclick="changeDate()">Analyze</button> </p>
+						<h1> Volume of transactions by financial sector </h1>
+						<div class="row">
+							<div class="col-md-2">
+								<a href="javascript:void(0);" onclick="heatInfo()" class="btn btn-primary"><i class="fa fa-info-circle fa-1x" aria-hidden="true"></i>
+								Financial sectors</a>
+							</div>
+							<div class="col-md-2">
+								<a href="javascript:void(0);" onclick="heatInfo()" class="btn btn-primary"><i class="fa fa-info-circle fa-1x" aria-hidden="true"></i>
+								Volume of transactions</a>
+							</div>
+						</div>
+						<div class="feature" id="chart"></div>
+						<h1> Stock price throug time </h1>
+						<div id="priceChart"></div>
+						<div class ="stacked_s">
+							<h1> Comparison between stocks</h1>
+							<div class="row">
+								<div class="col-md-3">
+									<a href="javascript:void(0);" onclick="heatInfo()" class="btn btn-primary"><i class="fa fa-info-circle fa-1x" aria-hidden="true"></i>
+									Stacked, stream and expanded</a>
+								</div>
+								<div class="col-md-2">
+									<a href="javascript:void(0);" onclick="heatInfo()" class="btn btn-primary"><i class="fa fa-info-circle fa-1x" aria-hidden="true"></i>
+									Volume of transactions</a>
+								</div>
+							</div>
+						<svg id="chart2"></svg>
+						
+					</div>
+					<div class="heatmap">
+						<h1> How do stocks correlate between them?</h1>
+						<section id="header2">
+						</section>
+						<aside style="font-style:italic;
+							float:right;width:250px;
+							border:1px solid;
+							margin: 5em auto auto auto;"
+							>
+						</div>
+					</div>
+				</div>
+			</main>
+			<footer class="text-muted">
+				<div class="container">
+					<p class="float-right">
+						<a href="#">Back to top</a>
+					</p>
+					<p>Diana Solano, Juan José Díaz, Santiago Liñán</p>
+					<p>Visual Analytics, Universidad de los Andes, Colombia</a></p>
+				</div>
+			</footer>
+			<!-- Bootstrap core JavaScript
+			================================================== -->
+			<!-- Placed at the end of the document so the pages load faster -->
+			
+			<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+			<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+			<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+			<script>
+			$( function() {
+			$( ".datepicker" ).datepicker({
+			dateFormat: "d/mm/yy"
+			});
+			} );
+			function heatInfo()
+			{
+				swal(
+			'The Internet?',
+			'That thing is still around? dsd sdsddds d sd s d sd sd sdsds  ds ds d ssddsdsdsdsdsds',
+			'question'
+			)
+			}
+			</script>
+			<script src="assets/js/vendor/popper.min.js"></script>
+			<script src="dist/js/bootstrap.min.js"></script>
+			<script src="assets/js/vendor/holder.min.js"></script>
+			<script>
+			Holder.addTheme('thumb', {
+			bg: '#55595c',
+			fg: '#eceeef',
+			text: 'Thumbnail'
+			});
+			</script>
+			<script src="treeMapZoom.js"></script>
+			<script src="lineChart.js"></script>
+			<script src="stacked.js"></script>
+			<script type="text/javascript" src="matrix-view.js"></script>
+			<script type="text/javascript" src="intro/intro.min.js"></script>
+		</body>
+	</html>
