@@ -1,10 +1,10 @@
-var margind = {top: 80, right: 180, bottom: 100, left: 80},
+var margind = {top: 220, right: 180, bottom: 100, left: 220},
     widthd = 750,
     heightd = 750;
 
 var x = d3.scale.ordinal().rangeBands([0, widthd]),
     z = d3.scale.linear().domain([0, 4]).clamp(true),
-    c = d3.scale.category10().domain(d3.range(6))
+    c = d3.scale.category10().domain(d3.range(10))
     value = 0;
 
 var svgd = d3.select("#header2").append("svg")
@@ -15,9 +15,9 @@ var svgd = d3.select("#header2").append("svg")
     .append("g")
     .attr("transform", "translate(" + margind.left + "," + margind.top + ")");
 
-  var div = d3.select("#header2").append("div") 
-        .attr("class", "tooltip")       
-        .style("opacity", 0);
+var div = d3.select("body").append("div") 
+    .attr("class", "tooltip")       
+    .style("opacity", 0);
 
 d3.json("miserables.json", function(miserables) {
   var matrix = [],
@@ -45,18 +45,21 @@ d3.json("miserables.json", function(miserables) {
     sampleCategoricalData[nodes[link.source].group] = nodes[link.source].region;
   });
 
-
-  verticalLegend = d3.svg.legend().labelFormat("none").cellPadding(5).orientation("vertical").units("Sector").cellWidth(25).cellHeight(18).inputScale(c,sampleCategoricalData).cellStepping(10);
+  verticalLegend = d3.svg.legend().labelFormat("none")
+  .cellPadding(7).orientation("vertical")
+  .units("Sector").cellWidth(25).cellHeight(18)
+  .inputScale(c,sampleCategoricalData).cellStepping(10);
 
   d3.selectAll("#svgd")
-.append("g").attr("transform", "translate("+(widthd+130)+",250)").attr("class", "legend").call(verticalLegend);
+  .append("g").attr("transform", "translate("+(widthd+300)+",250)")
+  .attr("class", "legend").call(verticalLegend);
 
   
 
 
   // Precompute the orders.
   var orders = {
-    name: d3.range(n).sort(function(a, b) { return d3.ascending(nodes[a].name, nodes[b].name); }),
+   name: d3.range(n).sort(function(a, b) { return d3.ascending(nodes[a].name, nodes[b].name); }),
    count: d3.range(n).sort(function(a, b) { return nodes[b].count - nodes[a].count; }),
    group: d3.range(n).sort(function(a, b) { return nodes[a].group - nodes[b].group; })
   };
@@ -100,6 +103,7 @@ d3.json("miserables.json", function(miserables) {
   column.append("text")
       .attr("x", 6)
       .attr("y", x.rangeBand() / 2)
+      .attr("margin-left","20px")
       .attr("dy", ".32em")
       .attr("text-anchor", "start")
       .text(function(d, i) { return nodes[i].name; });
@@ -112,15 +116,13 @@ d3.json("miserables.json", function(miserables) {
         .attr("x", function(d) { return x(d.x); })
         .attr("width", x.rangeBand())
         .attr("height", x.rangeBand())
-        .style("fill-opacity", function(d) { return z(d.z); })
-        .style("fill", function(d) { return nodes[d.x].group == nodes[d.y].group ? c(nodes[d.x].group) : c(0); })
+        .style("fill", function(d) { return c(d.z); })
         .on("mouseover", mouseover)
         .on("mouseout", mouseout);
   }
 
   
   function mouseover(p) {
-    console.log(p)
     d3.selectAll(".row text").classed("active", function(d, i) { return i == p.y; });
     d3.selectAll(".column text").classed("active", function(d, i) { return i == p.x; });
     d3.select(this)
@@ -129,7 +131,7 @@ d3.json("miserables.json", function(miserables) {
     .duration(200)    
     .style("opacity", .9);  
     var icon ='"ion-leaf"'  
-    div.html("<i class=<b> Hectáreas</b></br>" + p.z)
+    div.html("<i class=<b> Correlación</b></br>" + p.z)
     .style("left", (d3.event.pageX + 15 ) + "px")   
     .style("top", (d3.event.pageY - 45) + "px");
                                  
