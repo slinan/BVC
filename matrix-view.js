@@ -159,7 +159,16 @@ d3.json("miserables.json", function(miserables) {
   {
     swal(
   'Transactions volume info',
-  'The transactions volume is the total amount of the transactios during a defined period of a certain stock. ',
+  'The transactions volume is the total amount of the transactions during a defined period of a certain stock.',
+  'question'
+  )
+  };
+
+  function corrInfo()
+  {
+    swal(
+  'Dependencies info',
+  'The dependencies between 2 stocks are a measurement of the risk in a portfolio. We measured the dependencies by calculating the average number of times that every couple of stocks closed the same day on the same direction (increasing or decreasing). It is a good practice to have the less dependent stocks on the same portfolio. ',
   'question'
   )
   };
